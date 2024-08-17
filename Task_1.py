@@ -1,25 +1,69 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-# Створення неорієнтованого графа
+
 G = nx.Graph()
+stations = ["Депо", "Вишенька", "Яблунька", "Центральна", "Березка", "Гайок"]
+G.add_nodes_from(stations)
 
-# Додавання вершин
-G.add_nodes_from(['A', 'B', 'C', 'D', 'E'])
 
-# Додавання ребер
-G.add_edges_from([('A', 'B'), ('A', 'C'), ('B', 'D'), ('C', 'D'), ('D', 'E')])
+edges = [
+    ("Депо", "Вишенька"),
+    ("Вишенька", "Яблунька"),
+    ("Яблунька", "Центральна"),
+    ("Центральна", "Березка"),
+    ("Березка", "Гайок"),
+    ("Гайок", "Депо"),
+    ("Депо", "Центральна"),
+]
 
-# Візуалізація графа
-pos = nx.spring_layout(G)  # визначення позицій вершин
-nx.draw(G, pos, with_labels=True, node_color='lightblue', edge_color='gray', node_size=1000, font_size=16, font_weight='bold')
+
+G.add_edges_from(edges)
+pos = nx.circular_layout(G)
+
+
+edge_labels = {
+    ("Депо", "Вишенька"): "1",
+    ("Вишенька", "Яблунька"): "2",
+    ("Яблунька", "Центральна"): "3",
+    ("Центральна", "Березка"): "4",
+    ("Березка", "Гайок"): "5",
+    ("Гайок", "Депо"): "6",
+    ("Депо", "Центральна"): "7",
+}
+
+
+nx.draw(
+    G,
+    pos,
+    with_labels=True,
+    node_color="yellow",
+    node_size=2000,
+    edge_color="blue",
+    font_size=15,
+    font_color="darkgreen",
+)
+
+
+nx.draw_networkx_edge_labels(
+    G,
+    pos,
+    edge_labels=edge_labels,
+    font_color="red",
+    font_size=12,
+)
+
+plt.title("Схема руху дитячої залізниці в Києві з нумерацією ребер")
 plt.show()
 
-# Аналіз характеристик графа
+
 num_nodes = G.number_of_nodes()
 num_edges = G.number_of_edges()
-degrees = [degree for node, degree in G.degree()]
+degree_centrality = nx.degree_centrality(G)
+
 
 print(f"Кількість вершин: {num_nodes}")
 print(f"Кількість ребер: {num_edges}")
-print(f"Ступінь вершин: {degrees}")
+print("Ступінь вершин:")
+for node, degree in degree_centrality.items():
+    print(f"{node}: {degree:.2f}")
