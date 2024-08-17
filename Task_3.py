@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 G = nx.Graph()
-stations = ["Депо", "Вишенька", "Яблунька", "Центральна", "Березка", "Гайок"]
+stations = ["1", "2", "3", "4", "5", "6"]
 G.add_nodes_from(stations)
 
 
